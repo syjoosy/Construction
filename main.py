@@ -44,13 +44,29 @@ def AddRoom():
     Add = Button(AddRoomWindow, text="Add Room", command=lambda: RoomStructureCreate(AddRoomWindow, RoomNameEntry.get(),RoomLengthEntry.get(),RoomWidthEntry.get(),RoomHeightEntry.get()))
     Add.grid(padx=10, pady=5)
 
+# Расчет краски
+def CalculatePaint(LayerCount, SurfaceLength, SurfaceWidth, PaintConsumption, CanVolume):
+    return (LayerCount*(SurfaceWidth*SurfaceLength+(SurfaceWidth*SurfaceLength)/10)/(PaintConsumption*CanVolume))
 
+# Расчет настенной плитки
+def CalculateWallTiles(RoomHeight, RoomLength, RoomWidth, WindowHeight, WindowWidth, DoorHeight, DoorWidth, SquareInPackage):
+    return (2*RoomHeight*(RoomLength+RoomWidth)+(2*RoomHeight*(RoomLength+RoomWidth)/10-WindowWidth*WindowHeight-DoorWidth*DoorHeight)/SquareInPackage)
 
-room_frame = LabelFrame(text="Room")
+# Расчет напольного материала (плитка/ламинат/паркет)
+def CalculateFloorMaterial(RoomLength, RoomWidth, SquareInPackage):
+    return ((RoomLength*RoomWidth+RoomLength*RoomWidth/10)/SquareInPackage)
+
+# Расчет обоев
+def CalculateWallpaper(RoomHeight, RoomLength, RoomWidth, WindowHeight, WindowWidth, DoorHeight, DoorWidth, RollWidth, RollHeight):
+    return (2*RoomHeight*(RoomLength+RoomWidth)+(2*RoomHeight*(RoomLength+RoomWidth)/10-WindowWidth*WindowHeight-DoorWidth*DoorHeight)/(RollWidth*RollHeight))
+
+# Расчет клея
+def CalculateGlue(SurfaceWidth, SurfaceLength, GlueConsumption, Packing):
+    return (SurfaceWidth*SurfaceLength+(SurfaceWidth*SurfaceLength)/10*GlueConsumption/Packing)
 
 #room_entry = Entry(room_frame, width=10)
 #room_entry.grid()
-
+room_frame = LabelFrame(text="Room")
 room_frame.grid(row=0, column=0, sticky=N+S, padx=10)
 
 add_room_button = Button(window, text="Add Room", command=AddRoom)
