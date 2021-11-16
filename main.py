@@ -1,22 +1,25 @@
 from tkinter import *
+from tkinter.ttk import Combobox
 window = Tk()
 window.title("Ремонт от детей маминой подруги")
 window.geometry('800x450')
 
 Room_ID = 0
-Rooms = []
+Rooms = {}
 
-#Функция преобразования введенных значений в список
-def RoomStructureCreate(AddRoomWindow, RoomNameEntry, RoomLength, RoomWidthEntry, RoomHeightEntry):
+# Выпадающий список для материалов
+material_picker = Combobox(window)
+material_picker["values"] = ("Плитка", "Паркет", "Ламинат")
+material_picker.current(0)
+material_picker.grid(column=0, row=0)
+
+# Функция преобразования введенных значений в словарь
+# Используется два словаря: внутренний содержит в себе непосредственно комнату (все ее параметры), внешний нужен для присвоения комнатам уникального идентификатора
+def RoomStructureCreate(AddRoomWindow, RoomNameEntry, RoomLength, RoomWidthEntry, RoomHeightEntry, RoomFloorMaterial):
     global Room_ID
-    Room = []
-    Room.append(Room_ID)
-    Room.append(RoomNameEntry)
-    Room.append(RoomLength)
-    Room.append(RoomWidthEntry)
-    Room.append(RoomHeightEntry)
+    Room = {"RoomName":RoomNameEntry, "RoomLength":RoomLength, "RoomWidth":RoomWidthEntry, "RoomHeight":RoomHeightEntry, "RoomFloorMaterial":RoomFloorMaterial}
     Room_ID += 1
-    Rooms.append(Room)
+    Rooms[Room_ID] = Room
     print(Rooms)
     #AddRoomWindow.quit()
     
@@ -41,7 +44,7 @@ def AddRoom():
     RoomWidthEntry.grid(padx=10)
     RoomHeightLabel.grid(padx=10, pady=5)
     RoomHeightEntry.grid(padx=10)
-    Add = Button(AddRoomWindow, text="Add Room", command=lambda: RoomStructureCreate(AddRoomWindow, RoomNameEntry.get(),RoomLengthEntry.get(),RoomWidthEntry.get(),RoomHeightEntry.get()))
+    Add = Button(AddRoomWindow, text="Add Room", command=lambda: RoomStructureCreate(AddRoomWindow, RoomNameEntry.get(),RoomLengthEntry.get(),RoomWidthEntry.get(),RoomHeightEntry.get(), material_picker.get()))
     Add.grid(padx=10, pady=5)
 
 # Расчет краски
