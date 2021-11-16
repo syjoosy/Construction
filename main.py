@@ -7,11 +7,6 @@ window.geometry('800x450')
 Room_ID = 0
 Rooms = {}
 
-# Выпадающий список для материалов
-material_picker = Combobox(window)
-material_picker["values"] = ("Плитка", "Паркет", "Ламинат")
-material_picker.current(0)
-material_picker.grid(column=0, row=0)
 
 # Функция преобразования введенных значений в словарь
 # Используется два словаря: внутренний содержит в себе непосредственно комнату (все ее параметры), внешний нужен для присвоения комнатам уникального идентификатора
@@ -36,6 +31,11 @@ def AddRoom():
     RoomWidthEntry = Entry(AddRoomWindow)
     RoomHeightLabel = Label(AddRoomWindow, text="Высота комнаты в см")
     RoomHeightEntry = Entry(AddRoomWindow)
+    # Выпадающий список для материалов
+    material_picker = Combobox(AddRoomWindow)
+    material_picker["values"] = ("Плитка", "Паркет", "Ламинат")
+    material_picker.current(0)
+    #
     RoomName.grid(padx=10, pady=5)
     RoomNameEntry.grid(padx=10)
     RoomLengthLabel.grid(padx=10, pady=5)
@@ -44,6 +44,7 @@ def AddRoom():
     RoomWidthEntry.grid(padx=10)
     RoomHeightLabel.grid(padx=10, pady=5)
     RoomHeightEntry.grid(padx=10)
+    material_picker.grid(padx=10, pady=5)
     Add = Button(AddRoomWindow, text="Add Room", command=lambda: RoomStructureCreate(AddRoomWindow, RoomNameEntry.get(),RoomLengthEntry.get(),RoomWidthEntry.get(),RoomHeightEntry.get(), material_picker.get()))
     Add.grid(padx=10, pady=5)
 
